@@ -18,11 +18,13 @@ router.get('/', (req, res) => {
 // GET route to retrieve movie details based on ID
 router.get('/:id/details', (req, res) => {
   const { id } = req.params;
-  const movieDetailsQuery = `SELECT movies.id, movies.title, movies.poster, genres.name, movies.description
+  const movieDetailsQuery = `SELECT movies.id, movies.title, movies.poster, movies.description, 
+                             JSON_AGG(genres.name) AS genres
                              FROM movies
                              JOIN movies_genres ON movies.id = movies_genres.movie_id
                              JOIN genres ON genres.id = movies_genres.genre_id
-                             WHERE movies.id = $1;`;
+                             WHERE movies.id = $1
+                             GROUP BY movies.id;`;
   pool.query(movieDetailsQuery, [id])
     .then(result => {
       // Retrieve the first row (since it's a single movie) from the query result
