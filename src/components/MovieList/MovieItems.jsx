@@ -1,6 +1,5 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 
 function MovieItems({ movie }) {
 
@@ -12,7 +11,7 @@ function MovieItems({ movie }) {
             type: 'SELECT_MOVIE',
             payload: movie.id
         });
-        history.push(`/movies/${movie.id}`);
+        history.push(`/movies/${movie.id}/details`);
     }
 
     return (

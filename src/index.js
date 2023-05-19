@@ -21,14 +21,16 @@ function* rootSaga() {
 
 function* fetchSelectedMovie(action) {
     try {
-        const selectedMovie = yield axios.get(`/api/movie/${action.payload}`);
+        // Make a GET request to retrieve the details of the selected movie based on the movie id
+        const selectedMovie = yield axios.get(`/api/movie/${action.payload}/details`);
         console.log('fetchSelectedMovie data', selectedMovie.data);
+        // Dispatch an action to update the selected movie in the Redux store
         yield put({ type: 'SET_SELECTED_MOVIE', payload: selectedMovie.data });
     } catch {
         console.log('fetchSelectedMovie - error');
     }
 }
-
+// Reducer function for managing the selected movie state
 const selectedMovie = (state = {}, action) => {
     switch (action.type) {
         case 'SET_SELECTED_MOVIE':
